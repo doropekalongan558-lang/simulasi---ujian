@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMULASI UJIAN ONLINE SMK GONDANG 2026</title>
+    <style>
+        /* Gaya Tampilan Utama */
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #eef2f7; margin: 0; padding: 15px; -webkit-user-select: none; user-select: none; }
+        .container { max-width: 750px; background: white; margin: 20px auto; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 8px solid #0056b3; }
+        .header { text-align: center; border-bottom: 3px double #ccc; padding-bottom: 15px; margin-bottom: 20px; }
+        .header h2 { margin: 5px 0; color: #0056b3; font-size: 22px; }
+        .header p { margin: 5px 0; color: #555; font-size: 14px; font-weight: bold; }
+        
+        /* Bar Informasi Siswa & Timer */
+        .info-bar { display: flex; justify-content: space-between; background: #f8f9fa; padding: 12px; border-radius: 6px; margin-bottom: 20px; font-size: 14px; border: 1px solid #ddd; }
+        .timer { font-weight: bold; color: #d9534f; font-size: 16px; }
+        
+        /* Kotak Soal */
+        .soal-box { margin-bottom: 25px; padding: 18px; border-left: 5px solid #0056b3; background: #fcfcfc; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .soal-text { font-size: 16px; font-weight: 500; color: #333; margin-top: 0; margin-bottom: 15px; line-height: 1.5; }
+        .opsi { margin: 12px 0; padding: 8px 10px; border-radius: 4px; transition: background 0.2s; }
+        .opsi:hover { background: #f1f5f9; }
+        .opsi label { display: flex; align-items: center; cursor: pointer; width: 100%; font-size: 15px; color: #444; }
+        .opsi input { margin-right: 12px; transform: scale(1.2); cursor: pointer; }
+        
+        /* Tombol Kirim */
+        .btn-submit { background-color: #28a745; color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; transition: background 0.3s; margin-top: 10px; letter-spacing: 1px; }
+        .btn-submit:hover { background-color: #218838; }
+        
+        /* Layar Kunci Keamanan (Anti Jendela Mengambang/Pindah Tab) */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); color: white; text-align: center; justify-content: center; align-items: center; flex-direction: column; z-index: 99999; padding: 20px; box-sizing: border-box; }
+        .overlay-card { background: #1a1a1a; padding: 30px; border-radius: 10px; border: 2px solid #ff3333; max-width: 500px; }
+        .overlay h1 { color: #ff3333; font-size: 26px; margin-bottom: 15px; }
+        .overlay p { font-size: 16px; line-height: 1.6; color: #ddd; }
+        .btn-unlock { background-color: #ff3333; color: white; border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<!-- Memblokir Klik Kanan -->
+<body oncontextmenu="return false;">
+
+<!-- Tampilan Layar Kunci Jika Curang -->
+<div class="overlay" id="warningOverlay">
+    <div class="overlay-card">
+        <h1>⚠️ OOPS! TERDETEKSI PELANGGARAN</h1>
+        <p>Anda dilarang keras membelah layar (split screen), membuka jendela mengambang (floating window), atau berpindah ke aplikasi lain saat ujian berlangsung!</p>
+        <p>Sesi ujian Anda telah dikunci demi integritas akademis.</p>
+        <button class="btn-unlock" onclick="bukaKunci()">MASUK KEMBALI UJIAN</button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h2>SIMULASI UJIAN ONLINE 2026</h2>
+        <p>SMK GONDANG - KABUPATEN PEKALONGAN</p>
+    </div>
+    
+    <div class="info-bar">
+        <div><strong>Mata Pelajaran:</strong> Teknologi Informasi</div>
+        <div class="timer">Sisa Waktu: <span id="time">15:00</span></div>
+    </div>
+
+    <form id="quizForm" onsubmit="selesaiUjian(event)">
+        <!-- Soal 1 -->
+        <div class="soal-box">
+            <p class="soal-text"><strong>Soal 1.</strong> Mengapa sistem operasi Infinix (XOS) memunculkan pesan error "oops" saat melakukan belah layar di halaman ujian online?</p>
+            <div class="opsi"><label><input type="radio" name="q1" value="A" required> A. Karena resolusi layar Infinix terlalu kecil untuk membagi gambar</label></div>
+            <div class="opsi"><label><input type="radio" name="q1" value="B"> B. Karena skrip pengaman web mendeteksi hilangnya fokus utama layar akibat multi-window</label></div>
+            <div class="opsi"><label><input type="radio" name="q1" value="C"> C. Karena Google Chrome belum terpasang dengan benar di HP Infinix</label></div>
+            <div class="opsi"><label><input type="radio" name="q1" value="D"> D. Karena kartu SIM Infinix tidak mendukung akses lembar jawaban</label></div>
+        </div>
+
+        <!-- Soal 2 -->
+        <div class="soal-box">
+            <p class="soal-text"><strong>Soal 2.</strong> Manakah tindakan berikut yang paling aman dilakukan jika sistem ujian berbasis web memiliki proteksi keamanan tingkat tinggi?</p>
+            <div class="opsi"><label><input type="radio" name="q2" value="A" required> A. Tetap memaksakan membuka jendela mengambang (floating window)</label></div>
+            <div class="opsi"><label><input type="radio" name="q2" value="B"> B. Mengunduh aplikasi pihak ketiga untuk meretas sistem sekolah</label></div>
+            <div class="opsi"><label><input type="radio" name="q2" value="C"> C. Menggunakan mode satu layar penuh dan mengerjakan ujian secara jujur</label></div>
+            <div class="opsi"><label><input type="radio" name="q2" value="D"> D. Menekan tombol recent apps berkali-kali sampai sistem web error</label></div>
+        </div>
+
+        <!-- Soal 3 -->
+        <div class="soal-box">
+            <p class="soal-text"><strong>Soal 3.</strong> Fitur bawaan resmi pada HP Infinix yang memungkinkan sebuah aplikasi tampil mengecil dan melayang di atas aplikasi lain dinamakan...</p>
+            <div class="opsi"><label><input type="radio" name="q3" value="A" required> A. Smart Split Screen</label></div>
+            <div class="opsi"><label><input type="radio" name="q3" value="B"> B. Developer Options</label></div>
+            <div class="opsi"><label><input type="radio" name="q3" value="C"> C. Jendela Mengambang (Floating/Lightning Window)</label></div>
+            <div class="opsi"><label><input type="radio" name="q3" value="D"> D. Tiga Jari Screenshot</label></div>
+        </div>
+
+        <button type="submit" class="btn-submit">KIRIM SEMUA JAWABAN</button>
+    </form>
+</div>
+
+<script>
+    // 1. Sistem Timer Mundur (15 Menit)
+    let durasiDetik = 900; 
+    const timerDisplay = document.getElementById('time');
+    
+    const hitungMundur = setInterval(() => {
+        let menit = Math.floor(durasiDetik / 60);
+        let detik = durasiDetik % 60;
+        detik = detik < 10 ? '0' + detik : detik;
+        timerDisplay.textContent = `${menit}:${detik}`;
+        
+        if (--durasiDetik < 0) {
+            clearInterval(hitungMundur);
+            alert("Waktu simulasi telah habis! Jawaban Anda otomatis disimpan.");
+            document.getElementById('quizForm').submit();
+        }
+    }, 1000);
+
+    // 2. Logika Deteksi Kecurangan (Pindah Tab / Jendela Mengambang)
+    const overlay = document.getElementById('warningOverlay');
+    
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            // Aktif jika siswa beralih ke WhatsApp, membelah layar, atau membuka floating window
+            overlay.style.display = "flex";
+        }
+    });
+
+    // Tombol untuk kembali ke ujian setelah terkunci
+    function bukaKunci() {
+        overlay.style.display = "none";
+    }
+
+    // 3. Logika Klik Tombol Kirim
+    function selesaiUjian(event) {
+        event.preventDefault();
+        clearInterval(hitungMundur);
+        alert("Simulasi Berhasil! Jawaban Anda telah terkirim ke server simulasi.");
+        location.reload(); // Reset halaman setelah selesai
+    }
+</script>
+</body>
+  </html>
+
+
